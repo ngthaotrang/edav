@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EDAV Midterm Trainer · STAT GR5702</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1d2330;--mute:#5f6b7a;--line:#dfe3ea;--grid:#e9edf2;--acc:#1f5fbf;--acc-soft:#e8f0fc;--ok:#1a7f4b;--ok-soft:#e5f5ec;--no:#b42318;--no-soft:#fdecea;--warn:#a15c00;--bar:#c9d3e0;--panel:#fbfcfd;--code:#f1f3f6}
+@media (prefers-color-scheme:dark){:root{--bg:#12151b;--card:#1b1f27;--fg:#e6e9ef;--mute:#9aa4b2;--line:#2c323d;--grid:#262c36;--acc:#6ea8ff;--acc-soft:#1d2a40;--ok:#4cc38a;--ok-soft:#173326;--no:#ff7b72;--no-soft:#3a1d1d;--warn:#e3a33b;--bar:#4a5568;--panel:#1f242d;--code:#242a34}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:10px 12px;border-radius:8px;overflow-x:auto;margin:10px 0;line-height:1.45}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.hwrap{max-width:1180px;margin:0 auto;padding:12px 20px 0;display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 18px}
+.brand{flex:1 1 320px;padding-bottom:10px}
+.brand h1{font-size:18px;margin:0;letter-spacing:-.01em}
+.brand .sub{color:var(--mute);font-size:13px}
+#countdown{display:inline-block;margin-top:4px;font-size:12px;font-weight:600;color:var(--acc);background:var(--acc-soft);padding:2px 8px;border-radius:999px}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+.tab{border:0;background:none;color:var(--mute);font:inherit;font-weight:600;padding:9px 12px;border-bottom:2.5px solid transparent;cursor:pointer}
+.tab:hover{color:var(--fg)}.tab.on{color:var(--acc);border-color:var(--acc)}
+.tab .badge{background:var(--no-soft);color:var(--no);border-radius:999px;padding:0 7px;font-size:12px;margin-left:4px}
+main{max-width:1180px;margin:0 auto;padding:20px}
+.layout{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+aside{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;position:sticky;top:86px}
+aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:4px 0 8px}
+.tp{display:flex;align-items:center;gap:8px;padding:4px 2px;font-size:13.5px;cursor:pointer}
+.tpn{flex:1}.tpa{font-size:12px;font-variant-numeric:tabular-nums;color:var(--mute)}
+.tpa.g{color:var(--ok)}.tpa.y{color:var(--warn)}.tpa.r{color:var(--no)}
+.lnk{background:none;border:0;color:var(--acc);font:inherit;font-size:12.5px;cursor:pointer;padding:0;margin-right:10px}
+.tog{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin:8px 0}
+.muted{color:var(--mute);font-size:13px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+#mode-label{font-weight:700}
+.btn{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 14px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.sm{padding:3px 10px;font-size:13px}.btn.ghost{background:none}
+.btn:disabled{opacity:.5;cursor:default}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--acc-soft);color:var(--acc)}
+.src{font-size:12px;color:var(--mute)}
+.qn{display:flex;gap:8px}.num{font-weight:700}
+.qtext{flex:1;font-size:15.5px}
+.fig{margin:12px 0;text-align:center}
+.fig img{max-width:100%;max-height:440px;border-radius:6px;background:#fff;padding:4px}
+.fig figcaption,.cap{font-size:12.5px;color:var(--mute);text-align:center}
+.plot{width:100%;max-width:560px;height:auto;font-family:system-ui,sans-serif}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin:12px 0}
+.mini{position:relative}.mini-l{font-weight:700;text-align:center}
+.mini .plot{max-width:260px}
+.plot .panel{fill:var(--panel);stroke:var(--line)}
+.plot .grid{stroke:var(--grid);stroke-width:1}
+.plot .ax{stroke:var(--mute)}
+.plot .tk{font-size:11px;fill:var(--mute)}
+.plot .lab{font-size:12.5px;fill:var(--fg)}.plot .b{font-weight:700}
+.plot .ttl{font-size:13px;font-weight:700;fill:var(--fg)}
+.plot .bar{fill:var(--bar);stroke:var(--fg);stroke-width:.8}
+.plot .pt{fill:none;stroke:var(--acc);stroke-width:1.2}
+.plot .ref{stroke:var(--no);stroke-width:1.5}
+.plot .ln{fill:none;stroke:var(--fg);stroke-width:2}
+.plot .ln2{fill:none;stroke:var(--acc);stroke-width:2;stroke-dasharray:6 4}
+.plot .area{fill:var(--bar);stroke:var(--fg);stroke-width:1.2}
+.plot .pc{fill:none;stroke:var(--acc);stroke-opacity:.65;stroke-width:1.4}
+.plot .tile{stroke:var(--fg);stroke-width:.7}
+.dt{border-collapse:collapse;margin:10px 0;font-size:13.5px;font-variant-numeric:tabular-nums}
+.dt th,.dt td{border:1px solid var(--line);padding:4px 10px;text-align:right}
+.dt th{background:var(--code)}.dt td:first-child,.dt th:first-child{text-align:left}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;background:var(--card);color:var(--fg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--acc);background:var(--acc-soft)}
+.opt .let{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:700;background:var(--code)}
+.opt.sel{border-color:var(--acc);background:var(--acc-soft)}.opt.sel .let{background:var(--acc);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}.opt.right .let{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:var(--no-soft)}.opt.wrong .let{background:var(--no);color:#fff}
+.opt:disabled{cursor:default}
+.fill input{width:100%;font:inherit;font-family:ui-monospace,Menlo,monospace;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);margin-top:12px}
+.exp{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.verdict{font-weight:700;margin-bottom:6px}.verdict.ok{color:var(--ok)}.verdict.no{color:var(--no)}.verdict.skip{color:var(--warn)}
+.why{background:var(--panel);border-left:3px solid var(--acc);padding:10px 12px;border-radius:0 8px 8px 0;font-size:14.5px}
+.prof{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--acc);margin-bottom:3px}
+.selfmark{margin-top:8px;display:flex;gap:8px;align-items:center;font-size:14px}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:40px;text-align:center}
+.kbd{font-size:12px;color:var(--mute)}
+kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:11.5px}
+.intro{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.intro h2{margin:0 0 6px;font-size:18px}
+.examhead{position:sticky;top:76px;z-index:3;display:flex;gap:16px;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin-bottom:14px;flex-wrap:wrap}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:18px}.timer.low{color:var(--no)}
+.progress{color:var(--mute);font-size:13px}
+.submitbar{text-align:center;margin:20px 0}
+.result{background:var(--card);border:2px solid var(--acc);border-radius:12px;padding:18px 20px}
+.score{font-size:34px;font-weight:800}.score span{font-size:18px;color:var(--mute)}
+.tbar{display:grid;grid-template-columns:minmax(150px,280px) 1fr 54px;gap:10px;align-items:center;margin:5px 0;font-size:13.5px}
+.track{height:10px;background:var(--code);border-radius:999px;overflow:hidden}
+.fillb{height:100%;border-radius:999px}.fillb.g{background:var(--ok)}.fillb.y{background:var(--warn)}.fillb.r{background:var(--no)}
+.tn{font-variant-numeric:tabular-nums;color:var(--mute);text-align:right}
+.cheat{columns:2 380px;column-gap:20px}
+.cheat section{break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 16px}
+.cheat h3{margin:0 0 6px;font-size:15px;color:var(--acc)}
+.cheat ul{margin:0;padding-left:18px}.cheat li{margin:3px 0;font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="hwrap">
+  <div class="brand"><h1>EDAV Midterm Trainer</h1><div class="sub">STAT GR5702 · Exploratory Data Analysis &amp; Visualization · Prof. Joyce Robbins · Fall 2026</div><span id="countdown"></span></div>
+  <nav>
+    <button class="tab" data-tab="practice">Practice</button>
+    <button class="tab" data-tab="review">Review missed <span class="badge" id="missed-count">0</span></button>
+    <button class="tab" data-tab="mock">Mock exam</button>
+    <button class="tab" data-tab="sample">Sample midterm</button>
+    <button class="tab" data-tab="cheat">Cheat sheet</button>
+    <button class="tab" data-tab="stats">Stats</button>
+  </nav>
+</div></header>
+<main>
+<section class="view" id="view-practice"><div class="layout">
+  <aside>
+    <h3>Topics</h3>
+    <div><button class="lnk" id="all">select all</button><button class="lnk" id="none">clear</button></div>
+    <div id="topics"></div>
+    <h3 style="margin-top:14px">Options</h3>
+    <label class="tog"><input type="checkbox" id="gen"> <span>Include randomized questions (new numbers &amp; plots each time)</span></label>
+    <label class="tog"><input type="checkbox" id="weak"> <span>Focus on my weak topics</span></label>
+    <p class="muted" id="overall"></p>
+    <p class="muted" id="bankinfo"></p>
+  </aside>
+  <div>
+    <div class="toolbar"><div><div id="mode-label">Random practice</div><div class="muted" id="sess">Session: 0/0</div></div>
+      <div><span class="kbd"><kbd>A</kbd>–<kbd>D</kbd> answer · <kbd>Enter</kbd> next</span> &nbsp;<button class="btn primary" id="next">Next question →</button></div></div>
+    <div id="practice-card"></div>
+  </div>
+</div></section>
+
+<section class="view" id="view-mock" hidden>
+  <div class="intro"><h2>Mock midterm</h2><p>33 multiple-choice questions, drawn in roughly the same topic mix as the professor's sample midterm (heavy on mosaic/categorical, parallel coordinates, histograms, boxplots and ggplot2 grammar). Randomized questions get fresh numbers and plots every time. 75-minute timer, like the real exam. Nothing is graded until you submit.</p>
+  <button class="btn primary" id="mock-start">Start mock exam</button></div>
+  <div id="mock-body"></div>
+</section>
+
+<section class="view" id="view-sample" hidden>
+  <div class="intro"><h2>Professor's sample midterm (Fall 2026)</h2><p>All 33 questions with the original figures, graded against the posted solution key, <b>including the Oct 17 correction to Q4</b>, with the professor's handwritten notes and Ed clarifications (Q17, Q25) worked into the explanations. Q20 is fill-in: self-mark it.</p>
+  <label class="tog"><input type="checkbox" id="sample-timer"> <span>Use a 75-minute timer</span></label>
+  <button class="btn primary" id="sample-start">Start sample midterm</button></div>
+  <div id="sample-body"></div>
+</section>
+
+<section class="view" id="view-cheat" hidden>
+  <div class="intro"><h2>High-yield cheat sheet</h2><p class="muted">The exam is closed book. These are the rules the questions keep testing, pulled from the slides, lectures, Ed posts and the sample key.</p></div>
+  <div class="cheat">
+  <section><h3>ggplot2 grammar</h3><ul>
+    <li>Layer = <b>geom + aes mapping + data + stat + position</b>.</li>
+    <li>Building blocks: Layers (unlimited), Scales (<b>one per aesthetic mapping</b>), Coord (one), Facet (one), Theme (one, sort of).</li>
+    <li>Mapping = inside <code>aes()</code> → gets a scale/legend. Setting = constant outside aes (<code>color = "grey50"</code>, <code>alpha = .5</code>) → no scale.</li>
+    <li>Continuous = num/dbl/int; discrete = fct/chr/lgl. Numeric 0/1 → gradient; use <code>factor()</code>.</li>
+    <li><code>geom_bar()</code> = stat count (1 column); <code>geom_col()</code> = stat identity (x &amp; y). Default histogram bins = 30.</li>
+    <li><code>y = after_stat(density)</code> → density histogram. color = borders/lines/points; fill = areas.</li>
+    <li>End lines with <code>+</code>. Positions: identity, jitter, dodge (grouped), stack, fill (proportions).</li></ul></section>
+  <section><h3>Histograms</h3><ul>
+    <li>Look for: asymmetry, outliers, multimodality, gaps, heaping/rounding, impossible values (999, −2 codes = missing).</li>
+    <li>Prefer <code>binwidth</code>; set <code>boundary</code> or <code>center</code>, or all <code>breaks</code>.</li>
+    <li>Default <b>right-closed</b> (a, b]: value on boundary goes LEFT. <code>closed = "left"</code> → [a, b).</li>
+    <li>density = rel. freq / binwidth; bar <b>area</b> = rel. freq; total area = 1.</li>
+    <li>Unequal binwidths → use density (the "27 vs 6 year olds" trap: 4:1 looks → 2:1 real).</li>
+    <li>Bimodal heights → two groups (men/women).</li></ul></section>
+  <section><h3>Boxplots &amp; quantiles</h3><ul>
+    <li>Show median, hinges, whiskers, outliers. <b>Can't</b> show mean, n, or modality.</li>
+    <li>H-spread = upper − lower hinge. Fences = hinges ± <b>1.5 × H-spread</b>. Whiskers → most extreme points inside fences.</li>
+    <li>Base R/Tukey: hinges (fivenum; odd n → median in both halves). ggplot2: quartiles (quantile type 7) + IQR.</li>
+    <li>Type 7: h = (n−1)p, interpolate. 10…80 → Q1 = 27.5.</li>
+    <li>Varwidth ∝ √n. Odd boxes (no whiskers, median on edge) → small n and/or discrete values.</li>
+    <li>Outliers → investigate, don't auto-delete.</li></ul></section>
+  <section><h3>Density, ridgelines, QQ, normality</h3><ul>
+    <li>Larger bandwidth → smoother; smaller → bumpier. Gaussian kernel; bw ≈ σ.</li>
+    <li>Area under a density curve = 1 (heights can exceed 1).</li>
+    <li>Ridgelines show <b>modes</b> better than boxplots (pulsar / Joy Division).</li>
+    <li>QQ (theoretical on x): straight = normal; convex "smile" = right skew; concave "frown" = left skew; S steep ends = heavy tails; flat ends = light tails (uniform).</li>
+    <li>Shapiro–Wilk H₀ = normal. p = .65 → <b>cannot reject</b> normality (not "65% chance normal"). W ∈ [0,1]; p depends on W and n.</li>
+    <li>Stem-and-leaf: read the decimal-point line. All leaves 0/5 → rounding.</li></ul></section>
+  <section><h3>Categorical &amp; missing data</h3><ul>
+    <li>Nominal → sort by frequency (<code>fct_infreq</code>); ordinal → logical order; numbers can be nominal (zip codes).</li>
+    <li>chr → alphabetical; factor → level order. <code>factor(x, levels=…)</code> must match exactly (else NA). Don't set order with <code>levels()&lt;-</code>.</li>
+    <li>forcats: reorder (by y, dot plots), reorder2 (lines), rev (horizontal bars), relevel (by hand), lump_n (+Other), na_value_to_level.</li>
+    <li>Cleveland dot plot: position encoding, <b>no zero baseline needed</b>; bars need zero.</li>
+    <li>Topcoding ("or more") OK if <b>few</b> values in top bin (Q4 corrected key).</li>
+    <li>NA: ggplot keeps NA bar; explicit NA level → <code>is.na()</code> FALSE. <code>drop_na()</code>/<code>na.omit()</code> = complete cases; <code>drop_na(col)</code> only that column. "N/A" string ≠ NA.</li></ul></section>
+  <section><h3>Scatterplots, 2D density, facets</h3><ul>
+    <li>Overplotting: open circles, alpha, smaller points, sample, subset, log scale, heatmaps/contours.</li>
+    <li>x &amp; y only: <code>geom_bin_2d</code>, <code>geom_hex</code>, <code>geom_density_2d</code>. Need z: <code>geom_contour</code>, <code>geom_tile</code> (fill).</li>
+    <li>ntile = equal counts; cut = equal widths.</li>
+    <li>Scatter features: associations, outliers, clusters, gaps, barriers, conditional relationships. Gridlines help read values, hurt pattern-spotting.</li>
+    <li>Facets = small multiples/panels/trellis/lattice. Keep shared scales, except facet-per-variable → <code>scales = "free_x"</code>.</li>
+    <li>Same panel = easiest comparison. Categorical → color/facets/shape; continuous → x/y.</li></ul></section>
+  <section><h3>Parallel coordinates</h3><ul>
+    <li>Line = case, axis = variable. Parallel lines = +corr; crossing X = −corr; only <b>adjacent</b> axes compare easily.</li>
+    <li>Best for following cases across many continuous variables (movies top on all 3 → PCP).</li>
+    <li>ggparcoord scale: <b>std</b> (default, (x−mean)/sd), <b>uniminmax</b> ([0,1] per variable), <b>globalminmax</b> (original units).</li>
+    <li>Rescaling each axis to 0–1 hides which variables are high overall (Q24).</li>
+    <li>geom_line version: pivot_longer + <code>group = id</code>. alphaLines, splineFactor, groupColumn; parcoords = interactive.</li></ul></section>
+  <section><h3>Mosaic &amp; multivariate categorical</h3><ul>
+    <li>Area ∝ frequency of each combination; tiles = product of levels (2×2×5 = 20). Not a treemap.</li>
+    <li>Dependent variable: split <b>last</b>, <b>horizontally</b>, = <b>fill</b>. Others vertical (3 vars: V V H; 4 vars: H V V H).</li>
+    <li>Most-interest level: <b>bottom, darkest</b>. Least interest: top, lightest (Q17).</li>
+    <li>Aligned cuts = independence; staircase = association. Pairs plot: biggest staircase wins.</li>
+    <li>Earlier split = contiguous labeled blocks; later variables repeat within blocks.</li>
+    <li>vcd: <code>mosaic(dep ~ a + b, direction = c("v","v","h"), highlighting_fill = …)</code> → splits a, b, then dep. Colors = # levels of dep.</li>
+    <li>Grouped bars = read frequencies; mosaic = association (Q25). Stacked bars: totals &amp; bottom easy, <b>top/middle hard</b>.</li>
+    <li>Same-binwidth mosaic = proportion stacked bar (<code>position = "fill"</code>), but loses counts.</li>
+    <li>Expected (independence) = row total × col total / N; χ² compares observed vs expected.</li>
+    <li>Simpson's paradox (airlines/airports): mosaic tile sizes reveal the lurking variable.</li>
+    <li>Diverging stacked bar: ordinal/Likert with polar ends; drop "neutral" if it means "don't know".</li>
+    <li>pivot_longer: rows = r × (# pivoted cols); cols = kept + 2. Cases → counts: group_by + summarize.</li></ul></section>
+  </div>
+</section>
+
+<section class="view" id="view-stats" hidden>
+  <div class="intro"><h2>Your accuracy by topic</h2><p class="muted">Saved in this browser. Use the Practice sidebar's "Focus on my weak topics" option to get more questions from the red rows.</p><div id="stats-body"></div><p><button class="btn" id="reset">Reset stats</button></p></div>
+</section>
+</main>
+<!--DATA-->
+</body>
+</html>
