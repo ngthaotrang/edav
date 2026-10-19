@@ -90,7 +90,9 @@ function nextPractice() {
   $$('.opt', card).forEach(b => b.onclick = () => answerPractice(+b.dataset.i));
   if (P.q.type === 'fill') { const inp = $('input', card); inp.focus();
     $('#next').textContent = 'Show answer'; }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  if (matchMedia('(max-width: 860px)').matches) $('.toolbar').scrollIntoView({ behavior, block: 'start' });
+  else window.scrollTo({ top: 0, behavior });
 }
 function answerPractice(i) {
   if (P.done || !P.q) return; P.done = true;
@@ -188,6 +190,7 @@ function show(tab) {
     $('#mode-label').textContent = rv ? `Reviewing missed questions (${S.missed.length} left)` : 'Random practice'; }
 }
 document.addEventListener('DOMContentLoaded', () => {
+  $('#topic-settings').open = !matchMedia('(max-width: 860px)').matches;
   $$('.tab').forEach(t => t.onclick = () => show(t.dataset.tab));
   $('#next').onclick = onNext;
   $('#gen').checked = S.gen; $('#weak').checked = S.weak;

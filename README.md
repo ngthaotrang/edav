@@ -23,3 +23,12 @@ python3 src/build.py   # writes index.html
 - `src/gen.js`: random question generators
 - `src/app.js`: UI logic
 - `src/template.html`: page and styles
+
+## Mobile use
+Open the published site in your phone or tablet browser. Topics and practice options
+start collapsed on smaller screens; tap the heading to expand them. Answer choices
+and exam controls work by touch, and wide data tables scroll horizontally within
+the card. Browser zoom remains available for inspecting plots.
+
+Progress is stored in the current browser and does not sync between devices.
+This is a responsive website, not a native iOS or Android app.

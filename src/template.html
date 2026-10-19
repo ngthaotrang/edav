@@ -102,6 +102,39 @@ kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;bor
 .cheat section{break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 16px}
 .cheat h3{margin:0 0 6px;font-size:15px;color:var(--acc)}
 .cheat ul{margin:0;padding-left:18px}.cheat li{margin:3px 0;font-size:14px}
+/* Keep long question content inside its grid/flex column. */
+.layout > *, .qtext, .otx, .tpn{min-width:0}
+.card,.intro,.result,.cheat section{overflow-wrap:anywhere}
+.fig{margin:12px 0}
+.dt{display:block;max-width:100%;overflow-x:auto}
+.minis{grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))}
+.selfmark{flex-wrap:wrap}
+.topic-settings summary{cursor:pointer;font-weight:700;min-height:44px;padding:10px 0}
+button,summary{touch-action:manipulation}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+@media (max-width:860px){
+  header,aside{position:static}
+  .hwrap{padding:12px 12px 0}
+  .brand{flex-basis:100%;min-width:0;padding-bottom:0}
+  nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:2px}
+  .tab{padding:10px 6px;min-height:44px;font-size:14px}
+  main{padding:12px}
+  .layout{gap:12px}
+  aside{padding:4px 12px}
+  .btn,.btn.sm,.lnk,.tp,.tog{min-height:44px}
+  .lnk{min-width:44px;padding:8px 4px}
+  input[type="checkbox"]{width:20px;height:20px;flex-shrink:0}
+  .tog{align-items:center}
+  .card,.intro,.result{padding:14px}
+  .empty{padding:24px 14px}
+  .kbd{display:none}
+  .fill input{font-size:16px}
+  .examhead{top:0;gap:6px 12px;padding:10px 12px}
+  .examhead > div:first-child{flex-basis:100%}
+  .tbar{grid-template-columns:minmax(0,1fr) 54px;gap:4px 10px;margin:14px 0}
+  .tbar .tl{grid-column:1 / -1}
+  .cheat{columns:1}
+}
 </style>
 </head>
 <body>
@@ -119,6 +152,8 @@ kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;bor
 <main>
 <section class="view" id="view-practice"><div class="layout">
   <aside>
+    <details class="topic-settings" id="topic-settings" open>
+    <summary>Topics &amp; practice options</summary>
     <h3>Topics</h3>
     <div><button class="lnk" id="all">select all</button><button class="lnk" id="none">clear</button></div>
     <div id="topics"></div>
@@ -127,6 +162,7 @@ kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;bor
     <label class="tog"><input type="checkbox" id="weak"> <span>Focus on my weak topics</span></label>
     <p class="muted" id="overall"></p>
     <p class="muted" id="bankinfo"></p>
+    </details>
   </aside>
   <div>
     <div class="toolbar"><div><div id="mode-label">Random practice</div><div class="muted" id="sess">Session: 0/0</div></div>
